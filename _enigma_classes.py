@@ -19,13 +19,22 @@ class Rotor:
         self.beta = beta
 
     # rotate the rotor
-    def rotate(self):
+    def frotate(self):
         new_beta = [0 for i in range(26)]
         for letter in self.beta:
             if self.beta.index(letter) == 0:
                 new_beta[25] = letter
             else:
                 new_beta[self.beta.index(letter)-1] = letter
+        self.beta = new_beta
+
+    def brotate(self):
+        new_beta = [0 for i in range(26)]
+        for letter in self.beta:
+            if self.beta.index(letter) == 25:
+                new_beta[0] = letter
+            else:
+                new_beta[self.beta.index(letter) + 1] = letter
         self.beta = new_beta
 
     # before reflection
