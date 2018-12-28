@@ -17,4 +17,18 @@ print(f'{alpha}\n{r1}\n{r2}\n{r3}')
 #reflector
 ref1 = list(map(str, 'aeltphqxrubknwcmoydfgivjzs'))
 
-default_pbset = [['a', 'b'], ['a', 'b'], ['a', 'b'], ['a', 'b'], ['a', 'b'], ['a', 'b']]
+#plugboard settings
+default_pbset = [
+    ['a', 'b'],
+    ['c', 'd'],
+    ['e', 'f'],
+    ['g', 'h'],
+    ['i', 'j'],
+    ['k', 'l'],
+    ['m', 'n'],
+    ['o', 'p'],
+    ['q', 'r'],
+    ['s', 't']]
+
+#rotor positions
+rotor_pos = 'd'

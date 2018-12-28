@@ -1,4 +1,5 @@
 from _enigma_inputs import *
+import string
 
 class PlugBoard:
     def __init__(self, settings):
@@ -7,9 +8,11 @@ class PlugBoard:
     def value_check(self, letter):
         for pair in self.settings:
             if letter in pair:
-                del pair[pair.index(letter)]
-                print(f"MATCHING LETTER: {''.join(pair)}")
-                break
+                for value in pair:
+                    if value != letter:
+                        return value
+            else:
+                return letter
 
 class Rotor:
     def __init__(self, beta):
@@ -24,15 +27,14 @@ class Rotor:
             else:
                 new_beta[self.beta.index(letter)-1] = letter
         self.beta = new_beta
-        return new_beta
 
     # before reflection
     def forward_sub(self, letter):
-        return self.beta[alpha.index(letter)]
+        return self.beta[string.ascii_lowercase.index(letter)]
 
-    # after reflection; don't call for reflectors
+    # after reflection
     def backward_sub(self, letter):
-      return alpha[self.beta.index(letter)]
+        return string.ascii_lowercase[self.beta.index(letter)]
 
 
 
