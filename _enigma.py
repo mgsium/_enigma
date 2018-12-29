@@ -3,9 +3,9 @@ from _enigma_inputs import *
 from _enigma_gui import *
 from _enigma_functions import *
 
-print(f"OUTPUT : {encrypt(rotor1, rotor2, rotor3, 'z', ref1)}")
+#print(f"OUTPUT : {encrypt(rotor1, rotor2, rotor3, 'z', ref1)}")
 
-print(f"INPUT : {decrypt(rotor1, rotor2, rotor3, 'd', ref1)}")
+#print(f"INPUT : {decrypt(rotor1, rotor2, rotor3, 'd', ref1)}")
 
 '''
 print(rotor3.rotate())

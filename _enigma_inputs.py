@@ -14,6 +14,7 @@ r3 = {
 }
 print(f'{alpha}\n{r1}\n{r2}\n{r3}')
 
+
 #reflector
 ref1 = list(map(str, 'aeltphqxrubknwcmoydfgivjzs'))
 
