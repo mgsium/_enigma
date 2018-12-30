@@ -1,24 +1,24 @@
 from tkinter import *
 from _enigma_classes import *
 
-
+# window setup
 root = Tk()
 root.title("_enigma")
-root.configure(width=640, height=360)
-#root.geometry("640x360")
 root.wm_resizable(0,0)
 
 #menu
 menu = Menu(root)
 root.config(menu=menu)
 
+# menu bar setup
 file = Menu(menu)
 settings = Menu(menu)
 menu.add_cascade(label="File", menu=file)
 menu.add_cascade(label="Settings", menu=settings)
 
-file.add_command(label="Export to .txt", command=lambda: export('txt', root, output, position_output))
-file.add_command(label="Export to .csv", command=lambda: export('csv', root, output, position_output))
+# file section of the menu bar
+file.add_command(label="Export to .txt", command=lambda: export('txt', root, output, position_output))  # adds export to txt option
+file.add_command(label="Export to .csv", command=lambda: export('csv', root, output, position_output))  # adds export to csv option
 file.add_separator()
 file.add_command(label="Exit", command=exit)
 
@@ -76,12 +76,13 @@ decrypt_button = Button(
 decrypt_button.grid(column=1, row=3, padx="20", sticky=W)
 
 
-# clear button
+# clear button - clears the fields
 clear = Button(
     text="Clear",
     command=lambda : clear_field(input, output, position_input, position_output)
 ).grid(column=2, row=3, padx="10", sticky=E)
 
+# reset button - resets rotor positioning
 reset = Button(
     text="Reset",
     command=lambda : rotor1.reset()

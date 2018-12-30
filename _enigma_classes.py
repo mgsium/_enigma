@@ -1,9 +1,6 @@
 from _enigma_inputs import *
 from tkinter import filedialog
-import string
-import math
-import csv
-import datetime
+import string, math, csv, datetime
 
 # ---CLASSES---
 class PlugBoard:
@@ -47,25 +44,27 @@ class Rotor:
 
     # before reflection
     def forward_sub(self, letter):
-        return self.beta[string.ascii_lowercase.index(letter)]
+        return self.beta[string.ascii_lowercase.index(letter)]  # substitutes letter in the forward direction
 
     # after reflection
     def backward_sub(self, letter):
-        return string.ascii_lowercase[self.beta.index(letter)]
+        return string.ascii_lowercase[self.beta.index(letter)]  # substitutes letter in the backward direction
 
 # ---FUNCTIONS---
 def display_message(field, ofield, rt1, rt2, rt3, ref, status, process, pos_out, pos_in):
-    status.config(text="enigma emulator")
+    status.config(text="enigma emulator")  # changes the status bar text
     invalid = False
+    message = field.get()  # stores the input string
     for spec in message:
+        #removes special characters
         if spec not in string.ascii_lowercase:
             del message[message.index(spec)]
             invalid = True
 
-    message = ''.join(message)
+    message = ''.join(message)  # converts the message list to a string
 
     if invalid:
-        status.config(text="special characters removed")
+        status.config(text="special characters removed")  # outputs message if special characters have been removed
 
     if len(message) != 0:
         i = 0
@@ -91,14 +90,12 @@ def display_message(field, ofield, rt1, rt2, rt3, ref, status, process, pos_out,
 
         field.delete(first=0, last=len(field.get()))
 
-        while True:
-            try:
-                pos_out.config(state="normal")
-                pos_out.delete(first=0, last=len(pos_out.get()))
-                pos_out.insert(10, position)
-                break
-            except UnboundLocalError:
-                break
+        try:
+            pos_out.config(state="normal")
+            pos_out.delete(first=0, last=len(pos_out.get()))
+            pos_out.insert(10, position)
+        except UnboundLocalError:
+            pass
         pos_out.config(state="readonly")
 
 
@@ -135,6 +132,7 @@ def export(file_type, master, o_field, o_pos):
                 master.filename = filedialog.askopenfilename(initialdir="/", title="Select file",
                                                                     filetypes=(("Text", "*.txt"), ("All files", "*.*")))
                 f = open(master.filename, "a")
+                # exports the message in a user-friendly format
                 f.write(f"\n===================\nEncrypted message : {o_field.get()} \nPosition : {o_pos.get()}\nTime : {datetime.datetime.now()}\n===================\n")
             elif file_type == "csv":
                 master.filename = filedialog.askopenfilename(initialdir="/", title="Select file",
@@ -143,7 +141,7 @@ def export(file_type, master, o_field, o_pos):
                 f_writer = csv.writer(f, delimiter=",")
                 f_writer.writerow([o_field.get(), o_pos.get(), datetime.datetime.now()])
             break
-        except FileNotFoundError:
+        except FileNotFoundError:  # ignores files that do not exist
             break
 
 #initiating class instances

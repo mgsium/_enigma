@@ -1,7 +1,6 @@
 from _enigma_classes import *
 from _enigma_inputs import *
 from _enigma_gui import *
-from _enigma_functions import *
 
 #print(f"OUTPUT : {encrypt(rotor1, rotor2, rotor3, 'z', ref1)}")
 
@@ -15,5 +14,7 @@ print(rotor3.backward_sub('d'))
 set = PlugBoard(default_pbset)
 set.value_check('a')
 '''
+
+# runs the gui mainloop
 
 root.mainloop()
