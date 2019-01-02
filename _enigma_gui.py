@@ -1,10 +1,16 @@
 from tkinter import *
+from tkinter import ttk
 from _enigma_classes import *
 
 # window setup
 root = Tk()
 root.title("_enigma")
 root.wm_resizable(0,0)
+
+# main frame
+
+main = LabelFrame(root, text="Control")
+main.pack(padx=5, pady=5, ipadx=5, ipady=5)
 
 #menu
 menu = Menu(root)
@@ -22,6 +28,10 @@ file.add_command(label="Export to .csv", command=lambda: export('csv', root, out
 file.add_separator()
 file.add_command(label="Exit", command=exit)
 
+# settings section of the menu bar
+settings.add_command(label="Change Rotor", command=lambda: rotor_settings(r_settings))
+settings.add_command(label="Change Reflector", command=lambda: reflector_settings(ref))
+
 '''
 #toolbar
 toolbar = Frame(root)
@@ -37,60 +47,59 @@ topFrame.grid()
 '''
 
 # input label and field
-ilabel = Label(text="Input : ").grid(column=0, row=1, padx="10", sticky=E)
-
-input = Entry()
+ilabel = ttk.Label(main, text="Input : ").grid(column=0, row=1, padx="10", sticky=E)
+input = ttk.Entry(main)
 input.grid(column=1, row=1, padx="20",  pady="5", sticky=E)
 
 # output label and field
-olabel = Label(text="Output : ").grid(column=0, row=2, padx="10", sticky=E)
-output = Entry(state="readonly")
+olabel = ttk.Label(main, text="Output : ").grid(column=0, row=2, padx="10", sticky=E)
+output = ttk.Entry(main, state="readonly")
 output.grid(column=1, row=2, padx="20", pady="5", sticky=E)
 
 # position input
-position_input = Entry()
-position_input.insert(1, "a")
+position_input = ttk.Entry(main)
+#position_input.insert(1, "a")
 position_input.grid(column=2, row=1, padx=10)
 #position_input.trace()
 
 # position output
-position_output = Entry(state="readonly")
+position_output = ttk.Entry(main, state="readonly")
 position_output.grid(column=2, row=2, padx=10)
 
 # encrypt button
-encrypt_button = Button(
+encrypt_button = ttk.Button(
+    main,
     text="Encrypt",
-    fg="white",
-    bg="brown",
-    command=lambda : display_message(input, output, rotor1, rotor2, rotor3, ref1, status_bar, 'e', position_output, position_input)
+    command=lambda : display_message(input, output, r_settings.first, r_settings.second, r_settings.third, ref['chosen'], status_bar, 'e', position_output, position_input)
 )
-encrypt_button.grid(column=1, row=3, padx="20", sticky=E)
+encrypt_button.grid(column=1, row=3, padx="20")
 
 # decrypt button
-decrypt_button = Button(
+decrypt_button = ttk.Button(
+    main,
     text="Decrypt",
-    fg="white",
-    bg="brown",
-    command=lambda : display_message(input, output, rotor1, rotor2, rotor3, ref1, status_bar, 'd', position_output, position_input)
+    command=lambda : display_message(input, output, r_settings.first, r_settings.second, r_settings.third, ref['chosen'], status_bar, 'd', position_output, position_input)
 )
-decrypt_button.grid(column=1, row=3, padx="20", sticky=W)
+decrypt_button.grid(column=1, row=4, padx="20")
 
 
 # clear button - clears the fields
-clear = Button(
+clear = ttk.Button(
+    main,
     text="Clear",
     command=lambda : clear_field(input, output, position_input, position_output)
-).grid(column=2, row=3, padx="10", sticky=E)
+).grid(column=2, row=3, padx="10")
 
 # reset button - resets rotor positioning
-reset = Button(
+reset = ttk.Button(
+    main,
     text="Reset",
-    command=lambda : rotor1.reset()
-).grid(column=2, row=3, padx="10", sticky=W)
+    command=lambda : rotor_classes[0].reset()
+).grid(column=2, row=4, padx="10")
 
 
 # status bar
 root.grid_columnconfigure(0, weight=1)
-status_bar = Label(text = "enigma simulator", relief=SUNKEN, anchor=W, font="courier 10 italic")
-status_bar.grid(sticky=W, column=0,row=4, columnspan=3)
+status_bar = ttk.Label(text = "enigma simulator", relief=SUNKEN, anchor=W, font="courier 10 italic")
+status_bar.pack(fill=X)
 

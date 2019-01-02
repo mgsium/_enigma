@@ -12,11 +12,20 @@ r2 = {
 r3 = {
     'beta': list(map(str, 'bdfhjlcprtxvznyeiwgakmusqo'))
 }
+r4 = {
+    'beta': list(map(str, 'esovpzjayquirhxlnftgkdcmwb'))
+}
+r5 = {
+    'beta': list(map(str, 'vzbrgityupsdnhlxawmjqofeck'))
+}
+
 print(f'{alpha}\n{r1}\n{r2}\n{r3}')
 
 
-#reflector
-ref1 = list(map(str, 'aeltphqxrubknwcmoydfgivjzs'))
+#reflectors
+A = list(map(str, 'aeltphqxrubknwcmoydfgivjzs'))
+B = list(map(str, 'aeltphqxrubknwcmoydfgivjzs'))
+C = list(map(str, 'aeltphqxrubknwcmoydfgivjzs'))
 
 #plugboard settings
 default_pbset = [
