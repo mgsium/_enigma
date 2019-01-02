@@ -26,7 +26,7 @@ menu.add_cascade(label="Settings", menu=settings)
 file.add_command(label="Export to .txt", command=lambda: export('txt', root, output, position_output))  # adds export to txt option
 file.add_command(label="Export to .csv", command=lambda: export('csv', root, output, position_output))  # adds export to csv option
 file.add_separator()
-file.add_command(label="Exit", command=exit)
+file.add_command(label="Exit")
 
 # settings section of the menu bar
 settings.add_command(label="Change Rotor", command=lambda: rotor_settings(r_settings))
