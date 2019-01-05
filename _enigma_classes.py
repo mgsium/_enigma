@@ -102,7 +102,9 @@ def display_message(field, ofield, rt1, rt2, rt3, ref, status, process, pos_out,
     for spec in message:
         #removes special characters
         if spec not in string.ascii_lowercase:
+            message = list(message)
             del message[message.index(spec)]
+            message = ''.join(message)
             invalid = True
 
     message = ''.join(message)  # converts the message list to a string
