@@ -261,6 +261,7 @@ def rotor_settings(s):
 def add_to_selection(main, list, s):
     try:
         s.autoset(list.curselection()[0])
+        print(s)
         list.delete(list.curselection()[0])
 
         if s.third!=[]:
@@ -269,16 +270,12 @@ def add_to_selection(main, list, s):
                 title="alert",
                 message=f"Rotor 1 : {s.first[1]}\nRotor 2 : {s.second[1]}\nRotor 3 : {s.third[1]}"
             )
-            for i in [s.first, s.second, s.third]:
-                i = rotor_classes[i[0]]
-                print(i)
-
             s.rotorize()
-            print(s)
 
         print(s.first, s.second, s.third)
     except IndexError:
-        pass
+        print("error")
+
 
 def reflector_settings(ref):
     # settings window
@@ -286,9 +283,16 @@ def reflector_settings(ref):
     refs.title("reflector settings")
     refs.wm_resizable(0, 0)
 
-    ref_a_button = ttk.Button(refs, text="A", command=lambda: set_ref(ref, 0, refs)).pack()
-    ref_b_button = ttk.Button(refs, text="B", command=lambda: set_ref(ref, 1, refs)).pack()
-    ref_c_button = ttk.Button(refs, text="C", command=lambda: set_ref(ref, 2, refs)).pack()
+    refs_frame = LabelFrame(refs, text="Reflectors")
+    refs_frame.pack(padx=5, pady=5)
+
+    ref_a_button = ttk.Button(refs_frame, text="Reflector A", command=lambda: set_ref(ref, 0, refs)).grid()
+    ref_b_button = ttk.Button(refs_frame, text="Reflector B", command=lambda: set_ref(ref, 1, refs)).grid()
+    ref_c_button = ttk.Button(refs_frame, text="Reflector C", command=lambda: set_ref(ref, 2, refs)).grid()
+
+    status = Label(refs, text="Choose a reflector", relief=SUNKEN, font="courier 10 italic")
+    status.pack(fill=X);
+
 
 def set_ref(ref, index, window):
     ref['chosen'] = ref['all'][index]
