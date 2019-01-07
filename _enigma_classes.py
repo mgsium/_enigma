@@ -8,7 +8,7 @@ class PlugBoard:
     def __init__(self, settings):
         self.settings = settings
 
-    def value_check(self, letter):
+    def letter_swap(self, letter):
         for pair in self.settings:
             if letter in pair:
                 for value in pair:
@@ -20,14 +20,16 @@ class PlugBoard:
 class Rotor:
     def __init__(self, beta):
         self.beta = beta
-        self.obeta = beta
+        self.obeta = beta  # keeps original alphabet & positions
 
     # rotate the rotor
     def frotate(self):
         new_beta = [0 for i in range(26)]
         for letter in self.beta:
+            # moves the first letter to the end
             if self.beta.index(letter) == 0:
                 new_beta[25] = letter
+            # moves each letter one position "down"
             else:
                 new_beta[self.beta.index(letter)-1] = letter
         self.beta = new_beta
@@ -35,13 +37,16 @@ class Rotor:
     def brotate(self):
         new_beta = [0 for i in range(26)]
         for letter in self.beta[::-1]:
+            # moves the last letter to the front
             if self.beta.index(letter) == 25:
                 new_beta[0] = letter
+            # moves each letter "up"
             else:
                 new_beta[self.beta.index(letter) + 1] = letter
         self.beta = new_beta
 
     def reset(self):
+        # resets the rotor to the original position
         while self.beta[0] != self.obeta[0]:
             self.frotate()
 
@@ -98,7 +103,7 @@ class RotorSettings:
 def display_message(field, ofield, rt1, rt2, rt3, ref, status, process, pos_out, pos_in):
     status.config(text="enigma emulator")  # changes the status bar text
     invalid = False
-    message = field.get()  # stores the input string
+    message = field.get().lower()  # stores the input string
     for spec in message:
         #removes special characters
         if spec not in string.ascii_lowercase:
@@ -125,24 +130,6 @@ def display_message(field, ofield, rt1, rt2, rt3, ref, status, process, pos_out,
                 rt2.frotate()
             while rt3.beta[0] != pos_in.get()[2]:
                 rt3.frotate()
-
-        '''
-        for x in range(math.ceil(len(message)/10)):
-            current_message = message[i: i+10]
-            i+=10
-            ofield.config(state="normal")
-            if process == 'e':
-                for letter in current_message:
-                    current_letter, position = encrypt(rt1, rt2, rt3, letter.lower(), ref)
-                    ofield.insert(100, current_letter)
-            elif process == 'd':
-                # decrypts each letter
-                for letter in current_message[::-1]:
-                    current_letter, position = decrypt(rt1, rt2, rt3, letter.lower(), ref)
-                    output_message += current_letter
-                ofield.insert(100, ''.join(output_message[::-1])) # inserts the decrypted message into the output field
-            ofield.config(state="readonly")
-        '''
 
         current_message = message
         ofield.config(state="normal")
@@ -180,7 +167,7 @@ def clear_field(i, o, i_pos, o_pos):
 
 
 def encrypt(rt1, rt2, rt3, letter, ref):
-    letter = pb.value_check(letter)
+    letter = pb.letter_swap(letter)
     letter = rt3.forward_sub(rt2.forward_sub(rt1.forward_sub(letter)))  # runs the rotors in forward order
     letter = ref.forward_sub(letter)  # runs the reflector
     letter = rt1.backward_sub(rt2.backward_sub(rt3.backward_sub(letter)))  # runs the rotors in backwards order
@@ -202,7 +189,7 @@ def decrypt(rt1, rt2, rt3, letter, ref):
     letter = rt3.forward_sub(rt2.forward_sub(rt1.forward_sub(letter)))  # runs the rotors in forward order
     letter = ref.backward_sub(letter)  # runs the reflector
     letter = rt1.backward_sub(rt2.backward_sub(rt3.backward_sub(letter)))  # runs the rotors in backwards order
-    letter = pb.value_check(letter)
+    letter = pb.letter_swap(letter)
     print(letter)
     return letter, [rt1.beta[0], rt2.beta[1], rt3.beta[2]]
 
